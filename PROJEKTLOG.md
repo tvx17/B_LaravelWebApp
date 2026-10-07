@@ -78,7 +78,21 @@ Bei künftigen Arbeiten diese Datei im selben Arbeitsschritt aktualisieren: Datu
 - Prüfung: 15 Tests und 56 Assertions erfolgreich; Pint-Prüfung bestanden. Mit kurzzeitigem lokalem PHP-Server verifiziert: Debugbar wird in `/login` unter `local` eingebunden, bei `DEBUGBAR_ENABLED=false` nicht eingebunden und unter `production` auch bei explizitem Aktivierungswunsch nicht eingebunden. Prüfserver anschließend beendet.
 - Composer blieb bei der Autoload-Generierung ohne Fortschrittsausgabe. Den identifizierten Installationsprozess beendet und anhand des Lockfiles mit temporär deaktiviertem Xdebug erfolgreich fortgesetzt. Versionsbereich anschließend festgelegt und Lockfile synchronisiert.
 
+### Laravel Telescope – 07.10.2026
+
+- `laravel/telescope` 5.25.0 mit Versionsbereich `^5.25` als Entwicklungsabhängigkeit installiert; Composer-Audit ohne Befunde und Manifest/Lockfile validiert.
+- `telescope:install` ausgeführt: `config/telescope.php`, `app/Providers/TelescopeServiceProvider.php` und Migration für Telescope-Einträge veröffentlicht. Migration lokal auf SQLite ausgeführt.
+- Auto-Discovery für Telescope in `composer.json` deaktiviert; Registrierung beider Telescope-Provider erfolgt in `AppServiceProvider` ausschließlich bei `APP_ENV=local`, aktiviertem Telescope und vorhandenem Paket. Keine feste Provider-Registrierung in `bootstrap/providers.php`; damit bleibt die Anwendung bei `composer install --no-dev` lauffähig.
+- `TELESCOPE_ENABLED=true` in `.env.example` ergänzt. Die bestehende lokale Installation verwendet den aktivierten Paketstandard. Abschalten mit `TELESCOPE_ENABLED=false` und `php artisan config:clear`; Dashboard und Watcher werden dann nicht registriert.
+- Dashboard: `/telescope`. In der lokalen Umgebung ist es gemäß Laravel-Standard ohne Anmeldung verfügbar; außerhalb von `local` fehlen Dashboard und API-Routen vollständig. Nur auf dem lokalen Entwicklungsserver verwenden.
+- Passwörter, Passwortbestätigung, aktuelles Passwort und CSRF-Parameter sowie Cookie-, Authorization- und CSRF-Header werden auch in lokalen Request-Einträgen ausgeblendet.
+- Tägliche Bereinigung von Einträgen älter als 48 Stunden in `routes/console.php` geplant. Sie benötigt einen laufenden Scheduler; alternativ `php artisan telescope:prune --hours=48` manuell ausführen. Aufzeichnungen liegen in der aktiven Datenbank; bei späterem MariaDB-Wechsel legt die veröffentlichte Migration die Tabellen dort an.
+- Prüfung: 15 Tests, 56 Assertions erfolgreich; abschließende Pint-Prüfung bestanden. HTTP-Prüfung mit anschließend beendetem lokalem PHP-Server: Dashboard unter `local` liefert 200; bei `TELESCOPE_ENABLED=false` und unter `production` auch mit aktiviertem Schalter jeweils 404. Eine markierte Login-Anfrage wurde tatsächlich in `telescope_entries` gespeichert; per direkter SQLite-Abfrage ohne Ausgabe von Request-Inhalten bestätigt.
+- Kein zusätzlicher npm-Build nötig; Telescope liefert seine Dashboard-Assets selbst. Die bestehende MariaDB-Verbindung wurde weiterhin nicht getestet.
+
 ## Wichtige offene Aufgaben
+
+- [ ] Bei laufender lokaler Entwicklung den Scheduler aktivieren (`php artisan schedule:work`), damit die tägliche Telescope-Bereinigung ausgeführt wird; alternativ manuell `php artisan telescope:prune --hours=48` ausführen.
 
 - [ ] Ersten tatsächlichen Benutzer mit eigenen Zugangsdaten interaktiv anlegen (Benutzeraktion; Passwort nicht dokumentieren).
 - [ ] Anwendung im Browser prüfen: Login, Übersicht, Runner-Aufruf, Ausführung eines freigegebenen Befehls und Logout. Automatisierte HTTP-Tests bestehen bereits.
