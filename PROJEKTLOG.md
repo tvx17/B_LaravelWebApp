@@ -110,7 +110,16 @@ Bei künftigen Arbeiten diese Datei im selben Arbeitsschritt aktualisieren: Datu
 - Der Backup-Befehl unterstützt derzeit SQLite. Bei MariaDB wird bewusst abgebrochen, bis ein konsistenter SQL-Dump integriert ist. Dateien und Datenbank sind kein gemeinsamer atomarer Snapshot; bei strikten Anforderungen Schreibzugriffe während der Sicherung pausieren.
 - Anleitung für Einrichtung, Aufbewahrung, Windows-Aufgabenplanung und Restore: [docs/kopia.md](docs/kopia.md). Keine Änderung der Composer-Abhängigkeiten erforderlich.
 
+### Laravel Socialite – 07.10.2026
+
+- Windows-Kompatibilität vor Installation anhand der Paketanforderungen geprüft: keine Linux-spezifischen Erweiterungen erforderlich; Laravel 13 wird unterstützt.
+- `laravel/socialite` 5.31.0 mit Versionsbereich `^5.31` als reguläre Composer-Abhängigkeit hinzugefügt und Lockfile synchronisiert. Registrierung erfolgt über Laravel Package Discovery. Keine Migrationen oder Frontend-Builds erforderlich.
+- Anleitung für spätere Anbieter-Konfiguration in `config/services.php`, lokale OAuth-Zugangsdaten, Callback und sichere Kontoverknüpfung unter [docs/socialite.md](docs/socialite.md) ergänzt. Noch keine Anbieterwahl getroffen; keine Social-Login-Routen oder automatischen Benutzerverknüpfungen eingerichtet.
+- Composer blieb bei der Autoload-Generierung ohne Fortschrittsausgabe; identifizierte Installationsprozesse beendet und anhand des Lockfiles erfolgreich fortgesetzt. Composer-Konfiguration validiert, Paket-Audit ohne Befunde. Alle 18 Tests mit 64 Assertions bestanden. Auflösung des Socialite-Factory-Contracts als SocialiteManager im tatsächlichen Laravel-Container geprüft; kein externer OAuth-Aufruf durchgeführt.
+
 ## Wichtige offene Aufgaben
+
+- [ ] OAuth-Anbieter und Regeln für Social Login festlegen, OAuth-Anwendung beim Anbieter erstellen und anschließend Callback, Kontoverknüpfung und Integrationstests einrichten.
 
 - [x] Windows-taugliche Backup-Lösung auswählen: Kopia installiert und mit Laravel-Befehl angebunden.
 - [ ] Endgültigen Kopia-Speicherort festlegen und verschlüsseltes Repository mit lokal gewähltem Passwort verbinden; anschließend erste tatsächliche Sicherung und Wiederherstellung in separates Verzeichnis prüfen.
