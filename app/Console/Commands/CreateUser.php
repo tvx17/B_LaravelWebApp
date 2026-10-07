@@ -11,7 +11,7 @@ use Spatie\Permission\Models\Permission;
 
 class CreateUser extends Command
 {
-    protected $signature = 'app:create-user {email} {--name= : Anzeigename} {--runner : Zugriff auf Artisan Runner UI erteilen}';
+    protected $signature = 'app:create-user {email} {--name= : Anzeigename} {--runner : Zugriff auf Artisan Runner UI erteilen} {--admin : Zugriff auf Filament erteilen}';
 
     protected $description = 'Benutzer mit verdeckter Passworteingabe anlegen';
 
@@ -46,6 +46,9 @@ class CreateUser extends Command
             $user = User::create(collect($data)->only(['name', 'email', 'password'])->all());
             if ($this->option('runner')) {
                 $user->givePermissionTo(Permission::findOrCreate('run-artisan-runner-ui', 'web'));
+            }
+            if ($this->option('admin')) {
+                $user->givePermissionTo(Permission::findOrCreate('access-admin', 'web'));
             }
         });
         $this->info('Benutzer angelegt.');

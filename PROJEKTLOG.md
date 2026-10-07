@@ -127,7 +127,20 @@ Bei künftigen Arbeiten diese Datei im selben Arbeitsschritt aktualisieren: Datu
 - Composer blieb wiederholt bei optimierter Autoload-Generierung stehen. Identifizierte Installationsprozesse beendet, Paketmetadaten anhand des Lockfiles synchronisiert und für diese lokale Installation normale PSR-Autoload-Dateien mittels temporärer Composer-Konfiguration erzeugt. Temporäre Datei entfernt; Einstellung zur Autoload-Optimierung in der eigentlichen `composer.json` nicht geändert. Package Discovery und tatsächliche Paketnutzung erfolgreich geprüft.
 - Abschlussprüfung: 19 Tests mit 71 Assertions bestanden, Pint-Prüfung bestanden, Composer-Konfiguration gültig und Paket-Audit ohne Befunde. Migration erfolgreich; keine zusätzlichen Frontend-Builds notwendig.
 
+## Filament – 2026-10-07
+
+- Filament 5.10.0 mit Livewire 4.4.7 installiert. Laravel-/PHP-Anforderungen anhand der offiziellen Installation und Composer geprüft; erfolgreich auf Windows installiert, keine Linux-Pflicht.
+- Admin-Panel unter `/admin` mit Login `/admin/login`, Dashboard und dem vorhandenen `web`-Guard eingerichtet. Provider registriert, Assets veröffentlicht und `filament:upgrade` im Composer-Autoload-Script ergänzt. Veröffentlichte Assets sind generiert und werden nicht versioniert.
+- `User` implementiert `FilamentUser`. Zugriff erfordert ausdrücklich die Spatie-Berechtigung `access-admin`, auch lokal. Strikte Autorisierung für spätere Resources aktiviert; eigene Policies bleiben erforderlich.
+- `app:create-user --admin` ergänzt. Passwort wird verdeckt eingegeben; kein Standardadministrator angelegt. Berechtigte Benutzer sehen den Panel-Link auf der bestehenden Übersicht.
+- Einrichtung, Zugriffsvergabe und Weiterentwicklung in [docs/filament.md](docs/filament.md) dokumentiert. Noch keine fachlichen Resources oder zusätzlichen Integrationsplugins angelegt.
+- Composer zunächst ohne Autoload/Scripts installiert und lokale Autoload-Dateien über temporäre Konfiguration erstellt. Temporäre Datei entfernt; eigentliche Optimierungseinstellung unverändert. Panel-Installer zur vollständigen Asset-Veröffentlichung erneut ausgeführt.
+- Abschlussprüfung: 25 Tests mit 99 Assertions bestanden, Pint bestanden, Composer-Konfiguration gültig, Paket-Audit ohne Befunde. Admin-, Login- und Logout-Routen geprüft; Assets erfolgreich veröffentlicht.
+
 ## Wichtige offene Aufgaben
+
+- [ ] Ersten Administrator interaktiv mit `php artisan app:create-user deine-adresse@example.com --name="Dein Name" --admin` anlegen und Panel im Browser prüfen.
+- [ ] Fachliche Filament-Resources und deren Policies festlegen; Integrationen mit Media Library, Socialite oder Rollenverwaltung bei Bedarf ergänzen.
 
 - [ ] Fachliche Medienmodelle, erlaubte Upload-Typen/-Größen, Berechtigungen und Collections festlegen; anschließend Uploads und geschützte Downloads implementieren. Benötigte Vorschaubild-Konvertierungen und Zusatzwerkzeuge gesondert festlegen.
 
@@ -150,6 +163,13 @@ Bei künftigen Arbeiten diese Datei im selben Arbeitsschritt aktualisieren: Datu
 - [ ] Bei Bedarf Anforderungen für Registrierung, Passwort-Wiederherstellung und E-Mail-Verifikation klären.
 
 ## Häufige Befehle
+
+### Codex-Sitzung wieder aufnehmen – 2026-10-07
+
+- `Resume-Codex.ps1` im Projektstamm ergänzt. Das Skript verwendet die feste ID dieser Hauptsitzung und startet `codex resume` im Projektverzeichnis. Andere, später gestartete Sitzungen beeinflussen die Auswahl nicht.
+- Aufruf: `.\Resume-Codex.ps1`. Voraussetzung: Codex CLI im PATH, Anmeldung und gespeicherte Sitzung im selben lokalen Codex-Profil. Die bisherige Sitzung vor der Wiederaufnahme schließen.
+- Optional `-SessionId <UUID>` für eine andere Sitzung; `-WhatIf` zeigt den geplanten Aufruf ohne Start. Das vorherige Arbeitsverzeichnis wird nach Beendigung wiederhergestellt. Keine Änderungen an Berechtigungen oder Ausführungsrichtlinien.
+- Wiederaufnahmebefehl anhand der installierten CLI-Hilfe und [offiziellen OpenAI-Dokumentation](https://learn.chatgpt.com/docs/codex/cli) geprüft. PowerShell-Syntax und Probelauf mit `-WhatIf` geprüft; keine zweite aktive Sitzung gestartet.
 
 ```powershell
 php artisan serve
