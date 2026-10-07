@@ -1,0 +1,16 @@
+# Reinstall dependencies from lockfiles.
+/vendor/
+/node_modules/
+/.git/
+/.phpunit.cache/
+/.phpunit.result.cache
+/public/hot
+/public/storage/
+/storage/framework/
+/storage/logs/
+/storage/debugbar/
+/storage/pail/
+# Snapshot the consistent prepared copy, not a live SQLite database.
+/database/*.sqlite*
+/storage/app/backup-staging/*.tmp
+# Local environment files and storage/app uploads intentionally remain included.

@@ -90,7 +90,32 @@ Bei künftigen Arbeiten diese Datei im selben Arbeitsschritt aktualisieren: Datu
 - Prüfung: 15 Tests, 56 Assertions erfolgreich; abschließende Pint-Prüfung bestanden. HTTP-Prüfung mit anschließend beendetem lokalem PHP-Server: Dashboard unter `local` liefert 200; bei `TELESCOPE_ENABLED=false` und unter `production` auch mit aktiviertem Schalter jeweils 404. Eine markierte Login-Anfrage wurde tatsächlich in `telescope_entries` gespeichert; per direkter SQLite-Abfrage ohne Ausgabe von Request-Inhalten bestätigt.
 - Kein zusätzlicher npm-Build nötig; Telescope liefert seine Dashboard-Assets selbst. Die bestehende MariaDB-Verbindung wurde weiterhin nicht getestet.
 
+### Bereinigung und Backup-Kompatibilität – 07.10.2026
+
+- Die bereits vom Benutzer zurückgenommenen Queue-Monitoring-Abhängigkeiten anhand von `composer.json` und `composer.lock` überprüft. Verbliebenen Service Provider, Konfiguration, Tests und Anleitung entfernt; Composer-Installation mit dem bereinigten Lockfile synchronisiert und übrig gebliebene Pakete entfernt.
+- Veraltete Dokumentationsverweise und Testcache entfernt; Konfigurations- und Routencaches geleert. Composer meldete Warnungen in den Pre-Uninstall-Ereignissen, führte Paketentfernung, Autoload-Generierung und Package Discovery dennoch erfolgreich aus.
+- Vor einer neuen Installation die offiziellen Anforderungen von Spatie Laravel Backup v10 geprüft: Windows-Server werden ausdrücklich nicht unterstützt. Paket deshalb noch nicht installiert; Entscheidung zwischen einer Windows-tauglichen Lösung und Integration für einen späteren Betrieb auf einem unterstützten System angefragt.
+- Neue verbindliche Arbeitsregel: Betriebssystem-Kompatibilität vor jeder Paketinstallation prüfen. Einschränkungen gegenüber der vorhandenen Windows-Laufzeit vor Installation mitteilen und die weitere Vorgehensweise klären.
+- Referenz: https://spatie.be/docs/laravel-backup/v10/requirements
+- Abschlussprüfung der Bereinigung: Keine verbliebenen Verweise auf das entfernte Produkt in Anwendung, Konfiguration, Tests, Projektanleitungen, Bootstrap-Caches oder Composer-Dateien. Paketverzeichnisse entfernt; Composer-Konfiguration gültig. Alle 15 Tests mit 56 Assertions bestanden.
+
+### Kopia unter Windows – 07.10.2026
+
+- Kopia als Windows-kompatible Alternative ausgewählt; offizielle Windows-Unterstützung geprüft. CLI 0.23.1 mit `winget install --id Kopia.KopiaCLI --exact --source winget --scope user` installiert; Installer-Prüfsumme von winget validiert und Version tatsächlich ausgeführt.
+- `config/backup.php` und `app:backup` eingerichtet. Die lokale `.env` enthält den tatsächlichen Kopia-Programmpfad, da das laufende Terminal den aktualisierten PATH noch nicht übernommen hatte. `.env.example` enthält den portablen Standard `KOPIA_BINARY=kopia`.
+- SQLite-Vorbereitung mit `VACUUM INTO` und `PRAGMA integrity_check` implementiert. `--prepare-only` bereitet ausschließlich die konsistente Datenbankkopie vor; normaler Lauf prüft die Kopia-Verbindung und erstellt danach einen Projektsnapshot. Fehler werden als fehlgeschlagener Befehl gemeldet; Cache-Sperre verhindert parallele Aufrufe. Kopia verwendet `--fail-fast`.
+- `.kopiaignore` ergänzt: Abhängigkeiten, Git-Verzeichnis, Caches, Logs, Debugbar-Profile und rohe SQLite-Dateien unter `database/` ausgeschlossen. Quellcode, Lockfiles, lokale Umgebungsdateien, Uploads und die vorbereitete Datenbankkopie enthalten. Lokales Staging-Verzeichnis von Git ausgeschlossen.
+- Keine Repository-Zugangsdaten in Git oder Dokumentation gespeichert. Der endgültige Speicherort wurde angefragt; produktives Repository, Aufbewahrung und Zeitplan deshalb noch nicht eingerichtet. Künstliches Testrepository mit zufälligem temporärem Passwort ausschließlich zur Verifikation erstellt und danach entfernt.
+- Prüfung: Gesamte Laravel-Suite mit 18 Tests und 64 Assertions bestanden; Pint-Prüfung bestanden. Tests decken konsistente SQLite-Kopie, fehlendes Repository und fehlgeschlagenen Snapshot ab. SQLite-Kopie zusätzlich auf der aktuellen lokalen Installation erstellt und geprüft. Verschlüsselten Snapshot und Restore mit künstlichen Testdaten ausgeführt; Aufnahme von `.env`, Upload und Staging-Kopie sowie Ausschluss von Abhängigkeiten und Rohdatenbank verifiziert.
+- Der Backup-Befehl unterstützt derzeit SQLite. Bei MariaDB wird bewusst abgebrochen, bis ein konsistenter SQL-Dump integriert ist. Dateien und Datenbank sind kein gemeinsamer atomarer Snapshot; bei strikten Anforderungen Schreibzugriffe während der Sicherung pausieren.
+- Anleitung für Einrichtung, Aufbewahrung, Windows-Aufgabenplanung und Restore: [docs/kopia.md](docs/kopia.md). Keine Änderung der Composer-Abhängigkeiten erforderlich.
+
 ## Wichtige offene Aufgaben
+
+- [x] Windows-taugliche Backup-Lösung auswählen: Kopia installiert und mit Laravel-Befehl angebunden.
+- [ ] Endgültigen Kopia-Speicherort festlegen und verschlüsseltes Repository mit lokal gewähltem Passwort verbinden; anschließend erste tatsächliche Sicherung und Wiederherstellung in separates Verzeichnis prüfen.
+- [ ] Kopia-Aufbewahrung und automatische Ausführung per Windows-Aufgabenplanung festlegen.
+- [ ] Beim MariaDB-Wechsel konsistenten SQL-Dump in `app:backup` integrieren und Wiederherstellung testen.
 
 - [ ] Bei laufender lokaler Entwicklung den Scheduler aktivieren (`php artisan schedule:work`), damit die tägliche Telescope-Bereinigung ausgeführt wird; alternativ manuell `php artisan telescope:prune --hours=48` ausführen.
 
