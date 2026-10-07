@@ -68,6 +68,16 @@ Bei künftigen Arbeiten diese Datei im selben Arbeitsschritt aktualisieren: Datu
 
 - Diese Datei erstellt und bisherige Arbeiten sowie offene Aufgaben zusammengeführt. Für diese reine Dokumentationsänderung keine zusätzlichen Anwendungstests ausgeführt.
 
+### Laravel Debugbar – 07.10.2026
+
+- Das aktuelle Paket `fruitcake/laravel-debugbar` 4.4.4 mit Versionsbereich `^4.4` als Entwicklungsabhängigkeit installiert (Nachfolger des früheren Paketnamens `barryvdh/laravel-debugbar`). Laravel registriert den Service Provider automatisch.
+- `config/debugbar.php` ergänzt: Aktivierung nur bei `APP_ENV=local`, `APP_DEBUG=true` und `DEBUGBAR_ENABLED=true` (lokaler Standard). Weitere Einstellungen stammen aus den Paketdefaults.
+- `DEBUGBAR_ENABLED=true` in `.env.example` dokumentiert; für die bestehende lokale `.env` greift der Standard. Abschalten mit `DEBUGBAR_ENABLED=false` und `php artisan config:clear`.
+- Lokale Anfrageprofile in `storage/debugbar` von Git ausgeschlossen. Keine Migration oder zusätzlicher Frontend-Build erforderlich.
+- Für Deployment mit `composer install --no-dev` installieren; Debugbar ist ausschließlich für lokale Entwicklung vorgesehen.
+- Prüfung: 15 Tests und 56 Assertions erfolgreich; Pint-Prüfung bestanden. Mit kurzzeitigem lokalem PHP-Server verifiziert: Debugbar wird in `/login` unter `local` eingebunden, bei `DEBUGBAR_ENABLED=false` nicht eingebunden und unter `production` auch bei explizitem Aktivierungswunsch nicht eingebunden. Prüfserver anschließend beendet.
+- Composer blieb bei der Autoload-Generierung ohne Fortschrittsausgabe. Den identifizierten Installationsprozess beendet und anhand des Lockfiles mit temporär deaktiviertem Xdebug erfolgreich fortgesetzt. Versionsbereich anschließend festgelegt und Lockfile synchronisiert.
+
 ## Wichtige offene Aufgaben
 
 - [ ] Ersten tatsächlichen Benutzer mit eigenen Zugangsdaten interaktiv anlegen (Benutzeraktion; Passwort nicht dokumentieren).
