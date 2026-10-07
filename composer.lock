@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "998a69acdd6cc70fb1e67d31d2ca13f6",
+    "content-hash": "8dffe3f944be9f8f2f21b26129b60eb8",
     "packages": [
         {
             "name": "brick/math",
@@ -139,6 +139,68 @@
                 }
             ],
             "time": "2026-09-06T14:11:38+00:00"
+        },
+        {
+            "name": "codesquirrel/artisan-runner-ui",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/reyesorlan/artisan-runner-ui.git",
+                "reference": "20b9a1a73caf67be082469329227661cd8991403"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/reyesorlan/artisan-runner-ui/zipball/20b9a1a73caf67be082469329227661cd8991403",
+                "reference": "20b9a1a73caf67be082469329227661cd8991403",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/console": "^12.0|^13.0",
+                "illuminate/support": "^12.0|^13.0",
+                "php": "^8.2"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^10.0|^11.0",
+                "phpunit/phpunit": "^11.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "CodeSquirrel\\ArtisanRunnerUI\\ArtisanRunnerUIServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "CodeSquirrel\\ArtisanRunnerUI\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Orlan Reyes",
+                    "email": "orlan@codesquirrel.com.au"
+                }
+            ],
+            "description": "Web UI to browse and run Laravel artisan commands",
+            "homepage": "https://github.com/reyesorlan/artisan-runner-ui",
+            "keywords": [
+                "artisan",
+                "artisan-command",
+                "artisan-runner",
+                "console",
+                "laravel",
+                "web-ui"
+            ],
+            "support": {
+                "issues": "https://github.com/reyesorlan/artisan-runner-ui/issues",
+                "source": "https://github.com/reyesorlan/artisan-runner-ui/tree/v1.0.0"
+            },
+            "time": "2026-09-30T06:20:31+00:00"
         },
         {
             "name": "dflydev/dot-access-data",

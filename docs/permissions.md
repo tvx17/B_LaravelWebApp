@@ -32,6 +32,6 @@ Route::middleware(['auth', 'permission:articles.edit'])->group(function () {
 - `php artisan permission:cache-reset`: Berechtigungscache bei Bedarf zurücksetzen.
 - `php artisan test`: Tests einschließlich Rollenvererbung, Entzug direkter Berechtigungen und Zugriffsschutz ausführen.
 
-Die Paketinstallation umfasst keine Login-Oberfläche. Authentifizierung und das konkrete Rollenmodell werden separat festgelegt.
+Eine Blade-Anmeldung steht unter `/login` zur Verfügung. Benutzer werden interaktiv mit `php artisan app:create-user` angelegt; siehe `docs/artisan-runner-ui.md`. Das konkrete Rollenmodell wird separat festgelegt.
 
 Dokumentation: https://spatie.be/docs/laravel-permission/v8/introduction

@@ -1,0 +1,100 @@
+# Projektdokumentation und Aufgaben
+
+Stand: 07.10.2026. Diese Datei ist die zentrale Übersicht über durchgeführte Arbeiten, Entscheidungen, Prüfungen und offene Aufgaben.
+
+## Pflege dieser Datei
+
+Bei künftigen Arbeiten diese Datei im selben Arbeitsschritt aktualisieren: Datum, Anlass, Änderungen, betroffene Dateien, Prüfungen und verbleibende Aufgaben festhalten. Erledigte Aufgaben markieren und neue wichtige Aufgaben ergänzen. Auch fehlgeschlagene Prüfungen und ihre Lösung dokumentieren, wenn sie für weitere Arbeiten relevant sind. Passwörter, Schlüssel und andere Zugangsdaten niemals aufnehmen. Die bisherigen Arbeiten sind nachfolgend aus dem Sitzungsverlauf zusammengefasst.
+
+## Durchgeführte Arbeiten – 07.10.2026
+
+### Repository-Leitfaden
+
+- Im zunächst leeren Projektverzeichnis `AGENTS.md` mit Repository Guidelines erstellt (372 Wörter).
+- Auf ausdrücklichen Wunsch anschließend unverändert erhalten. Die darin enthaltene Beschreibung als leeres Projekt entspricht deshalb dem ursprünglichen Zustand.
+
+### Laravel-Basisinstallation
+
+- Laravel Framework 13.35.0 mit Composer installiert; Abhängigkeiten in `composer.lock` festgehalten.
+- Serverseitiges Frontend mit Blade, Vite und Tailwind eingerichtet. Standard-Startseite unter `/` erhalten.
+- `.env` und Anwendungsschlüssel erstellt; lokale SQLite-Datenbank angelegt und Standardmigrationen für Benutzer, Sessions, Cache und Queues ausgeführt.
+- PHP 8.5.6, Composer 2.9.8 und Node 24.18.0 auf der Entwicklungsmaschine geprüft.
+- Frontend-Abhängigkeiten installiert und `package-lock.json` erstellt. Eine gemeldete Sicherheitslücke in `shell-quote` durch den Override `^1.12.0` in `package.json` behoben. Anschließender npm-Audit ohne Befunde; Build und Standardtests erfolgreich.
+
+### Spatie Laravel Permission
+
+- Version 8.3.0 installiert, Versionsbereich `^8.3` festgelegt.
+- `HasRoles` in `app/Models/User.php` ergänzt.
+- `config/permission.php` und Migration veröffentlicht; Berechtigungstabellen lokal angelegt und Berechtigungscache zurückgesetzt.
+- Middleware-Aliase `role`, `permission` und `role_or_permission` in `bootstrap/app.php` registriert.
+- Tests für Rollenvererbung, direkte Berechtigungen, Berechtigungsentzug und gesperrte Zugriffe ergänzt. Keine allgemeinen Standardrollen angelegt.
+- Anleitung: [docs/permissions.md](docs/permissions.md).
+
+### Vorbereitung auf MariaDB
+
+- Vorhandene Laravel-Verbindung `mariadb` geprüft: `utf8mb4`, `utf8mb4_unicode_ci`, strikter SQL-Modus. `pdo_mysql` ist lokal vorhanden.
+- `.env.example` um kommentierte MariaDB-Werte ergänzt; aktive Anwendung weiterhin auf SQLite.
+- `phpunit.mariadb.xml` für die separate Datenbank `laravel_webapp_test` erstellt. Verbindung, Datenbankname und leerer `DB_URL` werden darin erzwungen.
+- `.env.testing` in `.gitignore` aufgenommen. MariaDB-Testkonfiguration durch Auflisten der Tests geprüft; keine echte MariaDB-Verbindung hergestellt.
+- Anleitung: [docs/mariadb.md](docs/mariadb.md).
+
+### Artisan Runner UI
+
+- `codesquirrel/artisan-runner-ui` 1.0.0 installiert, Versionsbereich `^1.0` festgelegt und `config/artisan-runner-ui.php` veröffentlicht.
+- Lokal in `.env` aktiviert; `.env.example` lässt die UI standardmäßig deaktiviert.
+- Verfügbarkeit auf `local` beschränkt. Zugriff erfordert Anmeldung und `run-artisan-runner-ui` im Guard `web`.
+- Nur `about`, `migrate:status`, `permission:show` und `permission:cache-reset` freigegeben; zusätzliche Paket-Sperrliste erhalten.
+- GET `/artisan-runner-ui` und POST `/artisan-runner-ui/run` geprüft. Das Paket protokolliert Ausführungen im Laravel-Log.
+- Tests für Umgebung, Gäste, fehlende Berechtigungen, erlaubte Ausführung und Ablehnung von `migrate:fresh` ergänzt.
+- Anleitung: [docs/artisan-runner-ui.md](docs/artisan-runner-ui.md).
+
+### Anmeldung und Benutzeranlage
+
+- `SessionController` und Blade-Seiten für `/login` und `/dashboard` ergänzt. Logout erfolgt per POST `/logout`.
+- Formularvalidierung, CSRF-Formulare, Begrenzung auf sechs Login-Anfragen je Minute und IP, Session-Erneuerung nach Login sowie Session-Invalidierung und CSRF-Token-Erneuerung nach Logout eingerichtet.
+- Geschützte Zugriffe führen Gäste zur Anmeldung; anschließend Rückkehr zur ursprünglich angefragten Seite. Die Übersicht enthält bei Berechtigung und aktivierter UI einen Runner-Link.
+- `app:create-user` mit verdeckter Passwortabfrage, Bestätigung, mindestens zwölf Zeichen und Prüfung auf doppelte E-Mail-Adressen implementiert. `--runner` vergibt die Runner-Berechtigung. Benutzeranlage und Vergabe erfolgen in einer Datenbanktransaktion.
+- Keine echten Benutzer oder voreingestellten Zugangsdaten angelegt. Öffentliche Registrierung und Passwort-Wiederherstellung sind bisher nicht implementiert.
+- Authentifizierungs- und Konsolentests sowie Runner-Test mit tatsächlicher Anmeldung ergänzt.
+
+### Verifikation und technische Besonderheiten
+
+- Letzte vollständige Prüfung: **15 Tests, 56 Assertions erfolgreich**; Pint-Prüfung und Frontend-Build erfolgreich. Composer-Konfiguration und Lockfile validiert; Composer-Audit ohne Befunde zum Installationszeitpunkt.
+- Sandbox-Einschränkungen verhinderten teilweise npm-Downloads, Vite-Unterprozesse und das Ersetzen kompilierter Blade-Dateien unter Windows. Erneute Prüfungen mit passenden Prozessrechten bestanden. Ein blockierter Composer-Lauf wurde beendet und anhand des Lockfiles erfolgreich fortgesetzt.
+- Für die direkte PHPUnit-Prüfung wurde temporär `PAO_DISABLE=true` gesetzt; keine dauerhafte Änderung der Anwendungskonfiguration.
+- Vite meldet einen optionalen Hinweis zu `fontaine` für optimierte Schrift-Fallbacks; der Build funktioniert ohne diese Zusatzabhängigkeit.
+
+### Zentrale Dokumentation
+
+- Diese Datei erstellt und bisherige Arbeiten sowie offene Aufgaben zusammengeführt. Für diese reine Dokumentationsänderung keine zusätzlichen Anwendungstests ausgeführt.
+
+## Wichtige offene Aufgaben
+
+- [ ] Ersten tatsächlichen Benutzer mit eigenen Zugangsdaten interaktiv anlegen (Benutzeraktion; Passwort nicht dokumentieren).
+- [ ] Anwendung im Browser prüfen: Login, Übersicht, Runner-Aufruf, Ausführung eines freigegebenen Befehls und Logout. Automatisierte HTTP-Tests bestehen bereits.
+- [ ] Fachliche Anforderungen, Seitenstruktur und Gestaltung der Web-Anwendung festlegen.
+- [ ] Konkrete Rollen und Berechtigungen definieren; bei Bedarf wiederholbar über Seeder einrichten.
+- [ ] MariaDB-Server, Anwendungsdatenbank und separate Testdatenbank bereitstellen; getrennte Benutzer und lokale Zugangsdaten konfigurieren.
+- [ ] Auf MariaDB umstellen, Migrationen ausführen und vollständige Tests gegen MariaDB durchführen. Falls SQLite-Daten erhalten werden sollen, deren Übertragung gesondert planen.
+- [ ] Vor einem Deployment Hosting, HTTPS, Secrets, Backups, `APP_DEBUG=false`, Session-Einstellungen und den Betrieb der Queues festlegen. Runner UI bleibt außerhalb von `local` gesperrt.
+- [ ] Bei Bedarf Anforderungen für Registrierung, Passwort-Wiederherstellung und E-Mail-Verifikation klären.
+
+## Häufige Befehle
+
+```powershell
+php artisan serve
+npm run dev
+npm run build
+php artisan test
+php vendor/bin/pint --test
+php artisan app:create-user deine-adresse@example.com --name="Dein Name" --runner
+```
+
+Nach Bereitstellung der separaten MariaDB-Testdatenbank:
+
+```powershell
+php artisan config:clear
+php artisan test --configuration=phpunit.mariadb.xml
+```
+
+MariaDB-Tests können Tabellen in der Testdatenbank neu anlegen. Dafür ausschließlich den Testbenutzer und die Testdatenbank verwenden.
