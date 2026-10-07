@@ -117,7 +117,19 @@ Bei künftigen Arbeiten diese Datei im selben Arbeitsschritt aktualisieren: Datu
 - Anleitung für spätere Anbieter-Konfiguration in `config/services.php`, lokale OAuth-Zugangsdaten, Callback und sichere Kontoverknüpfung unter [docs/socialite.md](docs/socialite.md) ergänzt. Noch keine Anbieterwahl getroffen; keine Social-Login-Routen oder automatischen Benutzerverknüpfungen eingerichtet.
 - Composer blieb bei der Autoload-Generierung ohne Fortschrittsausgabe; identifizierte Installationsprozesse beendet und anhand des Lockfiles erfolgreich fortgesetzt. Composer-Konfiguration validiert, Paket-Audit ohne Befunde. Alle 18 Tests mit 64 Assertions bestanden. Auflösung des Socialite-Factory-Contracts als SocialiteManager im tatsächlichen Laravel-Container geprüft; kein externer OAuth-Aufruf durchgeführt.
 
+### Spatie Media Library – 07.10.2026
+
+- Windows- und Laravel-13-Kompatibilität anhand der Paketanforderungen geprüft. PHP verfügt lokal über EXIF, Fileinfo, GD und Imagick; keine Linux-spezifischen Erweiterungen erforderlich.
+- `spatie/laravel-medialibrary` 11.23.9 mit Versionsbereich `^11.23` als reguläre Composer-Abhängigkeit installiert und Lockfile synchronisiert. Media Library Pro ist nicht Bestandteil der Installation.
+- Konfiguration `config/media-library.php` und Migration veröffentlicht; Tabelle `media` auf der lokalen SQLite-Datenbank angelegt. Privaten Standard-Speicher eingerichtet (`MEDIA_DISK=local`, `storage/app/private`) und in `.env.example` dokumentiert. Bildtreiber ist GD; Paketstandard für asynchrone Konvertierungen verwendet die bestehende Queue. Fachliche Modelle, Upload-Routen und Oberfläche werden erst nach Festlegung der Anforderungen ergänzt.
+- Integrationstest mit ausschließlich testinternem Modell für Dateizuordnung, Abruf, Speicherung und Löschung beim Entfernen des Modells erfolgreich ausgeführt; produktives User-Modell dafür nicht verändert.
+- Anleitung unter [docs/media-library.md](docs/media-library.md) ergänzt. Optionale Werkzeuge für PDF-/SVG-/Video-Vorschaubilder und Bildoptimierung nicht installiert. Kopia berücksichtigt den lokalen Medienspeicher bereits über `storage/app`.
+- Composer blieb wiederholt bei optimierter Autoload-Generierung stehen. Identifizierte Installationsprozesse beendet, Paketmetadaten anhand des Lockfiles synchronisiert und für diese lokale Installation normale PSR-Autoload-Dateien mittels temporärer Composer-Konfiguration erzeugt. Temporäre Datei entfernt; Einstellung zur Autoload-Optimierung in der eigentlichen `composer.json` nicht geändert. Package Discovery und tatsächliche Paketnutzung erfolgreich geprüft.
+- Abschlussprüfung: 19 Tests mit 71 Assertions bestanden, Pint-Prüfung bestanden, Composer-Konfiguration gültig und Paket-Audit ohne Befunde. Migration erfolgreich; keine zusätzlichen Frontend-Builds notwendig.
+
 ## Wichtige offene Aufgaben
+
+- [ ] Fachliche Medienmodelle, erlaubte Upload-Typen/-Größen, Berechtigungen und Collections festlegen; anschließend Uploads und geschützte Downloads implementieren. Benötigte Vorschaubild-Konvertierungen und Zusatzwerkzeuge gesondert festlegen.
 
 - [ ] OAuth-Anbieter und Regeln für Social Login festlegen, OAuth-Anwendung beim Anbieter erstellen und anschließend Callback, Kontoverknüpfung und Integrationstests einrichten.
 
