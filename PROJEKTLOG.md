@@ -137,7 +137,19 @@ Bei künftigen Arbeiten diese Datei im selben Arbeitsschritt aktualisieren: Datu
 - Composer zunächst ohne Autoload/Scripts installiert und lokale Autoload-Dateien über temporäre Konfiguration erstellt. Temporäre Datei entfernt; eigentliche Optimierungseinstellung unverändert. Panel-Installer zur vollständigen Asset-Veröffentlichung erneut ausgeführt.
 - Abschlussprüfung: 25 Tests mit 99 Assertions bestanden, Pint bestanden, Composer-Konfiguration gültig, Paket-Audit ohne Befunde. Admin-, Login- und Logout-Routen geprüft; Assets erfolgreich veröffentlicht.
 
+## Eloquent-Sluggable – 2026-10-08
+
+- `cviebrock/eloquent-sluggable` 13.0.1 und `cocur/slugify` 4.7.1 installiert; Composer-Versionsbereich `^13.0`. Laravel-13-Kompatibilität anhand der Paketdokumentation und Composer geprüft; Installation unter Windows erfolgreich.
+- Automatische Provider-Registrierung geprüft und `config/sluggable.php` veröffentlicht. Eindeutige Slugs und stabile URLs mit `unique=true` und `onUpdate=false` beibehalten.
+- Anleitung mit Modell-Trait, Quellfeld, eindeutiger Datenbankspalte und optionalen Slug-Routen unter [docs/sluggable.md](docs/sluggable.md) ergänzt. Bisher existiert kein fachliches Inhaltsmodell; daher keine Produktivtabellen oder User-Slugs ergänzt.
+- Integrationstest mit isolierter Testtabelle prüft automatische Erzeugung, Suffix bei doppelten Titeln und Erhalt des Slugs nach Titeländerung.
+- Composer ohne automatische Scripts installiert; Autoload über temporäre Konfiguration erzeugt, anschließend Package Discovery und Konfigurationsveröffentlichung ausgeführt. Temporäre Datei entfernt; reguläre Autoload-Optimierung unverändert.
+- Vollständige Tests deckten eine bestehende Kopia-Testsimulation auf, deren Stringmuster nicht zum Prozessaufruf passte. Simulation vergleicht jetzt das tatsächliche Befehlsarray; Backup-Produktivcode unverändert.
+- Abschlussprüfung: 27 Tests mit 102 Assertions bestanden, Pint bestanden, Composer-Konfiguration gültig und Paket-Audit ohne Befunde.
+
 ## Wichtige offene Aufgaben
+
+- [ ] Inhaltsmodelle für Slugs festlegen, Quellfelder und eindeutige Slug-Spalten ergänzen; bestehende Datensätze gegebenenfalls kontrolliert nachbefüllen. Slug-Routen, reservierte Namen und Verhalten bei paralleler Erstellung definieren.
 
 - [ ] Ersten Administrator interaktiv mit `php artisan app:create-user deine-adresse@example.com --name="Dein Name" --admin` anlegen und Panel im Browser prüfen.
 - [ ] Fachliche Filament-Resources und deren Policies festlegen; Integrationen mit Media Library, Socialite oder Rollenverwaltung bei Bedarf ergänzen.

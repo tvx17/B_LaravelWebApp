@@ -50,10 +50,9 @@ class BackupTest extends TestCase
 
     public function test_snapshot_failure_is_reported_as_failed_backup(): void
     {
-        Process::fake([
-            'kopia repository status' => Process::result(),
-            '*' => Process::result(errorOutput: 'Snapshot failed', exitCode: 1),
-        ]);
+        Process::fake(fn ($process) => $process->command === ['kopia', 'repository', 'status']
+            ? Process::result()
+            : Process::result(errorOutput: 'Snapshot failed', exitCode: 1));
         $this->artisan('app:backup')->assertFailed();
         Process::assertRan(fn ($process) => $process->command === ['kopia', 'snapshot', 'create', '--fail-fast', base_path()]);
     }
