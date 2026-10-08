@@ -67,4 +67,22 @@ class AuthenticationTest extends TestCase
             ->assertFailed();
         $this->assertDatabaseCount('users', 0);
     }
+
+    public function test_password_confirmation_requires_the_correct_password(): void
+    {
+        $user = User::factory()->create(['password' => 'a-long-test-password']);
+        $this->actingAs($user)->get('/user/confirm-password')->assertOk()->assertSee('Passwort bestätigen');
+        $this->post('/user/confirm-password', ['password' => 'incorrect'])
+            ->assertSessionHasErrors('password')->assertSessionMissing('auth.password_confirmed_at');
+        $this->post('/user/confirm-password', ['password' => 'a-long-test-password'])
+            ->assertRedirect('/dashboard')->assertSessionHas('auth.password_confirmed_at');
+    }
+
+    public function test_optional_account_features_are_disabled(): void
+    {
+        $this->get('/register')->assertNotFound();
+        $this->post('/register', [])->assertNotFound();
+        $this->get('/forgot-password')->assertNotFound();
+        $this->get('/two-factor-challenge')->assertNotFound();
+    }
 }

@@ -147,7 +147,18 @@ Bei künftigen Arbeiten diese Datei im selben Arbeitsschritt aktualisieren: Datu
 - Vollständige Tests deckten eine bestehende Kopia-Testsimulation auf, deren Stringmuster nicht zum Prozessaufruf passte. Simulation vergleicht jetzt das tatsächliche Befehlsarray; Backup-Produktivcode unverändert.
 - Abschlussprüfung: 27 Tests mit 102 Assertions bestanden, Pint bestanden, Composer-Konfiguration gültig und Paket-Audit ohne Befunde.
 
+## Laravel Fortify – 2026-10-08
+
+- Fortify 1.41.0 mit kompatiblen Abhängigkeiten installiert und unter Windows geprüft. Composer-Metadaten und Lockfile aktualisiert; temporäre Autoload-Konfiguration nach Verwendung entfernt.
+- `config/fortify.php` und registrierten `FortifyServiceProvider` ergänzt. Fortify übernimmt Login/Logout über den vorhandenen `web`-Guard, bestehendes Blade-Login, Weiterleitung nach `/dashboard` und Session-Invalidierung. Login-Limit von sechs Anfragen pro Minute und IP beibehalten.
+- Parallele Auth-Routen und bisherigen `SessionController` entfernt. Passwortbestätigung mit eigener Blade-Seite unter `/user/confirm-password` eingerichtet.
+- Optionale Kontofunktionen zunächst deaktiviert, da deren Anforderungen noch offen sind. Keine zusätzlichen User-Spalten oder Migrationen notwendig. Filament-Anmeldung und Spatie-Zugriffsschutz mit bestehender Testsuite geprüft.
+- Anleitung und Erweiterungsvoraussetzungen in [docs/fortify.md](docs/fortify.md) dokumentiert. Tests für Passwortbestätigung und deaktivierte optionale Funktionen ergänzt.
+- Abschlussprüfung: 29 Tests mit 114 Assertions bestanden, Pint bestanden, Composer-Konfiguration gültig und Audit ohne Befunde; Vite-Produktionsbuild erfolgreich. Build meldet einen optionalen Hinweis auf `fontaine` für optimierte Schrift-Fallbacks; keine zusätzliche Abhängigkeit installiert.
+
 ## Wichtige offene Aufgaben
+
+- [ ] Fortify-Funktionen für Registrierung, Reset, Verifikation, Profil, Zwei-Faktor-Anmeldung und Passkeys nach Bedarf spezifizieren; vor Aktivierung erforderliche Views, Actions, Mailkonfiguration und Migrationen implementieren.
 
 - [ ] Inhaltsmodelle für Slugs festlegen, Quellfelder und eindeutige Slug-Spalten ergänzen; bestehende Datensätze gegebenenfalls kontrolliert nachbefüllen. Slug-Routen, reservierte Namen und Verhalten bei paralleler Erstellung definieren.
 
