@@ -20,6 +20,7 @@
     "require-dev": {
         "fakerphp/faker": "^1.23",
         "fruitcake/laravel-debugbar": "^4.4",
+        "laramint/laravel-brain": "^2.7",
         "laravel/pail": "^1.2.5",
         "laravel/pao": "^1.0.6",
         "laravel/pint": "^1.27",
@@ -42,12 +43,8 @@
     },
     "scripts": {
         "setup": [
-            "composer install",
-            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
-            "@php artisan key:generate",
-            "@php artisan migrate --force",
-            "npm install --ignore-scripts",
-            "npm run build"
+            "Composer\\Config::disableProcessTimeout",
+            "@php setup.php"
         ],
         "dev": [
             "Composer\\Config::disableProcessTimeout",

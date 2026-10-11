@@ -2,7 +2,7 @@
 
 ## Repository Status
 
-This directory is currently empty and has no Git metadata, application files, or dependency manifests. Its name suggests a Laravel web application boilerplate. The conventions below are recommendations for initial setup; update this guide when the actual structure and tooling are established.
+This repository contains a Laravel 13 application with Blade/Vite, Fortify, Filament, Spatie Permission and Media Library, and local development tools. Dependency versions are pinned in composer.lock and package-lock.json. Setup documentation is in docs/setup.md.
 
 ## Project Structure & Module Organization
 
@@ -10,7 +10,9 @@ When initializing Laravel, use its conventional layout: `app/` for application c
 
 ## Build, Test, and Development Commands
 
-No build or development commands are configured yet. Once the relevant manifests and Laravel entry point exist, typical commands are:
+The interactive bootstrap command is `php setup.php` (also available through `composer setup`). It works before vendor/ exists, asks for confirmation before each step, preserves existing keys/data, and optionally writes a Git-ignored SETUP.md. PHP/Composer and, for frontend assets, Node.js/npm must already be installed. Other commands are:
+
+Without shell access, `public/setup.php` provides the browser wizard described in docs/browser-setup.md. It is disabled without the Git-ignored web-setup.local.php access configuration and locked after completion. Keep token authentication, HTTPS, native-session CSRF protection, fixed setup actions and the completion lock intact. Test browser setup only against temporary fixtures, never the developer's configuration or database.
 
 - `composer install`: install PHP dependencies from the lockfile.
 - `php artisan serve`: start the local application server.
@@ -25,7 +27,7 @@ For initial PHP code, use four-space indentation, PascalCase class names, and ca
 
 ## Testing Guidelines
 
-No testing framework or coverage threshold is established. With Laravel's test tooling, place isolated tests in `tests/Unit/` and application behavior tests in `tests/Feature/`. Name test files `*Test.php`. Cover changed behavior and relevant failure cases, and run the configured suite before requesting review.
+PHPUnit is configured in phpunit.xml with an isolated in-memory SQLite database; no coverage threshold is established. Place isolated tests in `tests/Unit/` and application behavior tests in `tests/Feature/`. Name test files `*Test.php`. Cover changed behavior and relevant failure cases, and run the configured suite before requesting review. Never run setup or migrations against the developer's database as a test. Pint provides PHP formatting (`php vendor/bin/pint --test`).
 
 ## Commit & Pull Request Guidelines
 

@@ -7,6 +7,14 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
+## Projektdokumentation
+
+Nach dem Klonen startet `php setup.php` die bestätigungspflichtige Einrichtung für Entwicklung oder Produktion, einschließlich Datenbank, CORS, Migrationen und erstem Benutzer. Voraussetzungen und Ablauf: [Einrichtungsassistent](docs/setup.md).
+
+Ohne Shell-Zugriff: [Browser-Einrichtung](docs/browser-setup.md) über `public/setup.php`, nach Aktivierung mit einem privaten Zugangscode.
+
+Die [Installationsübersicht](docs/installationsuebersicht.md) dokumentiert Einstellungen, Erweiterungen und Aufrufe dieser Installation. Vollständige Werte stehen in der [Konfigurationsreferenz](docs/konfigurationsreferenz.md), alle Paketversionen im [Abhängigkeitsverzeichnis](docs/abhaengigkeiten.md). Änderungen und offene Aufgaben stehen im [Projektlog](PROJEKTLOG.md).
+
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:

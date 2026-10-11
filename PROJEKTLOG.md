@@ -156,7 +156,29 @@ Bei künftigen Arbeiten diese Datei im selben Arbeitsschritt aktualisieren: Datu
 - Anleitung und Erweiterungsvoraussetzungen in [docs/fortify.md](docs/fortify.md) dokumentiert. Tests für Passwortbestätigung und deaktivierte optionale Funktionen ergänzt.
 - Abschlussprüfung: 29 Tests mit 114 Assertions bestanden, Pint bestanden, Composer-Konfiguration gültig und Audit ohne Befunde; Vite-Produktionsbuild erfolgreich. Build meldet einen optionalen Hinweis auf `fontaine` für optimierte Schrift-Fallbacks; keine zusätzliche Abhängigkeit installiert.
 
+## Laravel-Brain – 2026-10-08
+
+- `laramint/laravel-brain` 2.7.1 als Entwicklungsabhängigkeit installiert; `laramint/laravel-stress` 1.0.3 wird vom Paket mitgeliefert. Laravel-13-Kompatibilität geprüft und Scan unter Windows erfolgreich ausgeführt. Keine Lasttests gestartet.
+- Dateitreiber, Speicherlimit und Erkennung registrierter Routen in `config/laravel-brain.php` vorbereitet. Optionalen MCP-Server deaktiviert. Keine neue Datenbank oder Migration erforderlich.
+- Automatische Paketregistrierung geprüft. Graphdateien in `storage/app/laravel-brain/` erzeugt und von Git ausgeschlossen. Vollständiger Scan: 77 Routen, 223 Knoten, 262 Kanten. Anleitung unter [docs/laravel-brain.md](docs/laravel-brain.md).
+- Viewer `/_laravel-brain` mit HTTP-Prüfung bestätigt: lokal 200, Produktion 404. Für den ersten Produktions-Probelauf wurde die Testumgebung nicht korrekt übergeben; nach expliziter Übergabe erneut geprüft und Sperre bestätigt. Temporäre Prüfdatei anschließend entfernt.
+- Keine KI-Regeldateien generiert; `AGENTS.md` unverändert. Composer-Autoload mit temporärer Konfiguration aufgebaut und temporäre Datei entfernt.
+- Scanner meldet 31 heuristische Security-Hinweise; keine bestätigten Schwachstellen daraus abgeleitet. Paket-Audit und Anwendungstests gesondert geprüft.
+- Abschlussprüfung: 29 Tests mit 114 Assertions bestanden, Pint bestanden, Composer-Konfiguration gültig und Paket-Audit ohne Befunde. Kein zusätzlicher Frontend-Build erforderlich; Viewer-Assets werden vom Paket bereitgestellt.
+
 ## Wichtige offene Aufgaben
+
+### Gesamtdokumentation – 2026-10-08
+
+- [docs/installationsuebersicht.md](docs/installationsuebersicht.md) als zentralen Einstieg erstellt: Laravel-Grundeinstellungen, aktive und vorbereitete Funktionen, Erweiterungen mit Versionen, Browser-Adressen, Artisan-/PowerShell-Aufrufen, Zugriffsrechten und Betriebsbedingungen.
+- [docs/konfigurationsreferenz.md](docs/konfigurationsreferenz.md) aus der effektiv geladenen lokalen Konfiguration erzeugt: sämtliche 31 Konfigurationsbereiche einschließlich Framework- und Paketdefaults. Zugangsdaten und Schlüssel maskiert; normale Einstellungen wie Passwort-Broker und Bestätigungs-Timeout bleiben lesbar.
+- [docs/abhaengigkeiten.md](docs/abhaengigkeiten.md) ergänzt: alle 184 PHP-Pakete mit direkter/transitiver Herkunft und Entwicklungs-/Anwendungsbereich sowie JavaScript-Lockfile-Einträge einschließlich optionaler Plattformpakete.
+- [docs/artisan-befehle.md](docs/artisan-befehle.md) aus der tatsächlich verfügbaren lokalen Befehlsliste erstellt; dokumentiert Aufruf und Beschreibung, ohne Befehle auszuführen. README mit zentralen Dokumentationslinks ergänzt.
+- Native Windows-Grenze des bereits installierten Pail dokumentiert (`pcntl` erforderlich), einschließlich PowerShell-Alternative. Keine neue Software installiert und keine Anwendungseinstellungen verändert.
+- Dokumentation gegen Konfiguration, Provider, Umgebungs-Vorlage, freigegebene lokale Werte, Lockfiles und CLI-Verzeichnisse geprüft. Lokale Links gültig und App-Schlüssel nicht enthalten. Temporäres Generierungsscript entfernt. Für reine Dokumentationsänderungen keine erneute Anwendungstestsuite erforderlich.
+- Referenzen sind eine Momentaufnahme; nach Konfigurations- oder Paketänderungen nachführen. Bereits offene fachliche und betriebliche Aufgaben bleiben in den folgenden Punkten erhalten.
+
+- [ ] Laravel-Brain-Graph im Browser erkunden und heuristische Security-Hinweise im Kontext der lokalen Entwicklungswerkzeuge bewerten; nach Änderungen erneut `php artisan brain:scan --no-interaction` ausführen.
 
 - [ ] Fortify-Funktionen für Registrierung, Reset, Verifikation, Profil, Zwei-Faktor-Anmeldung und Passkeys nach Bedarf spezifizieren; vor Aktivierung erforderliche Views, Actions, Mailkonfiguration und Migrationen implementieren.
 
@@ -211,3 +233,18 @@ php artisan test --configuration=phpunit.mariadb.xml
 ```
 
 MariaDB-Tests können Tabellen in der Testdatenbank neu anlegen. Dafür ausschließlich den Testbenutzer und die Testdatenbank verwenden.
+
+## Interaktive Einrichtung (2026-10-11)
+
+- Eigenständiger Einstieg `php setup.php`, alternativ `composer setup`, vor Installation der Composer-Abhängigkeiten lauffähig.
+- Bestätigung je Schritt; Entwicklung/Produktion, sichere `.env`-Vorlage, Datenbankauswahl SQLite/MariaDB/MySQL und optionale Erstellung, CORS-Abfrage, Migrationen und Benutzer mit beiden Oberflächenrechten.
+- Optionale npm-Installation, Asset-Build und Storage-Link; URLs und Startbefehle als Ausgabe bzw. lokale `SETUP.md`. Kopia bleibt separat.
+- Vorhandene Schlüssel und Daten bleiben erhalten; Tests prüfen dotenv-Sonderzeichen und die sofortige Übernahme geänderter Datenbank-/CORS-Einstellungen.
+
+## Browser-Einrichtung (2026-10-11)
+
+- Eigenständiger Einstieg `public/setup.php` mit grafischem Dialog, vor Laravel-/Composer-Installation erreichbar; Aktivierung über separate, nicht versionierte `web-setup.local.php` außerhalb von `public/`.
+- Zugangscode, HTTPS, kurzlebige Sitzung, CSRF-Schutz gegen Fremdanfragen und doppelte Bestätigungen, feste Aktionen und Sperrdatei nach Abschluss.
+- Konfiguration, Migrationen und Benutzer mit beiden Berechtigungen direkt in PHP. Composer/npm nur bei explizit freigegebener Prozessausführung; andernfalls Anleitung zum Hochladen lokal vorbereiteter Abhängigkeiten und Assets.
+- Abschlussübersicht mit registrierten URLs, Betriebsbefehlen und übersprungenen Schritten, optional als `SETUP.md`; Kopia und dauerhafte Dienste bleiben separat.
+- Isolierte Tests für Migrationen, Benutzerrechte, Schlüssel-Erhaltung und echten HTTP-Dialog einschließlich Anmeldung, CSRF, fehlendem `vendor/` und Abschlusssperre.

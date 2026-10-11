@@ -4,6 +4,10 @@
 .env.backup
 .env.production
 .env.testing
+/SETUP.md
+/web-setup.local.php
+/storage/framework/web-setup.lock
+/storage/app/web-setup.complete
 .phpactor.json
 .phpunit.result.cache
 /.codex
@@ -25,6 +29,7 @@
 /storage/*.key
 /storage/pail
 /storage/debugbar
+/storage/app/laravel-brain
 /storage/app/backup-staging
 /vendor
 _ide_helper.php
