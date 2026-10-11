@@ -9,7 +9,7 @@
 
 ## Projektdokumentation
 
-Nach dem Klonen startet `php setup.php` die bestätigungspflichtige Einrichtung für Entwicklung oder Produktion, einschließlich Datenbank, CORS, Migrationen und erstem Benutzer. Voraussetzungen und Ablauf: [Einrichtungsassistent](docs/setup.md).
+Nach dem Klonen startet `composer setup` den interaktiven Ablauf wie im Projekt LaravelApi, angepasst an das Blade-Frontend. Alternativ `php setup.php` oder `php scripts/Setup.php` verwenden. Voraussetzungen, Datenbank-/Admin-Einrichtung und Frontend-Build: [Einrichtungsassistent](docs/setup.md).
 
 Ohne Shell-Zugriff: [Browser-Einrichtung](docs/browser-setup.md) über `public/setup.php`, nach Aktivierung mit einem privaten Zugangscode.
 

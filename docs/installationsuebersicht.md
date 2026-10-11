@@ -62,6 +62,8 @@ In einem zweiten Terminal `npm run dev` starten. Alternativ `npm run build` für
 
 `php setup.php` startet den [interaktiven Einrichtungsassistenten](setup.md), alternativ `composer setup`. Jeder Schritt benötigt eine Bestätigung. Vorhandene Anwendungsschlüssel bleiben erhalten; Datenbank, CORS, Migrationen, Benutzer und Assets werden auf Wunsch eingerichtet.
 
+Seit 2026-10-11 entspricht die Setup-Struktur dem Projekt LaravelApi: eigenständige CLI-Schritte, mehrsprachiger Browser-Assistent unter `/setup.php`, `.setup-access` zur ausdrücklichen Freischaltung und Fortschrittsanzeige. Web-App-Adressen und npm-/Vite-Schritte sind angepasst. Der frühere `app:setup`-Befehl und die Aktivierung über `web-setup.local.php` sind ersetzt; Details und bestehende Abschlusssperren siehe [Setup-Anleitung](setup.md).
+
 Der aktuell registrierte Entwicklungsverbund besteht aus `php artisan serve`, `php artisan queue:listen --tries=1 --timeout=0` und `npm run dev`. Telescope-Bereinigung und Backups starten dadurch nicht automatisch.
 
 ## Installierte Anwendungserweiterungen
@@ -127,7 +129,7 @@ php artisan test
 php artisan test --configuration=phpunit.mariadb.xml
 ```
 
-MariaDB-Tests können Tabellen der angegebenen Testdatenbank neu erstellen. Sie ausschließlich auf einer separaten Testdatenbank ausführen. Zuletzt geprüfter Stand: 29 Tests, 114 Assertions; kein festgelegtes Coverage-Minimum. [MariaDB-Anleitung](mariadb.md).
+MariaDB-Tests können Tabellen der angegebenen Testdatenbank neu erstellen. Sie ausschließlich auf einer separaten Testdatenbank ausführen. Zuletzt geprüfter Stand nach Setup-Umbau am 2026-10-11: 53 Tests, 730 Assertions; kein festgelegtes Coverage-Minimum. [MariaDB-Anleitung](mariadb.md).
 
 ## Pflege der Dokumentation
 

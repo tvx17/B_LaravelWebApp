@@ -30,6 +30,10 @@
 /storage/pail
 /storage/debugbar
 /storage/app/laravel-brain
+/.setup-access
+/.setup-complete
+/.setup.lock
+/.setup-login-attempts.json
 /storage/app/backup-staging
 /vendor
 _ide_helper.php

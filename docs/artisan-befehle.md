@@ -6,6 +6,7 @@ Stand: 2026-10-08, lokale Umgebung. Aufruf jeweils mit `php artisan BEFEHL`; Det
 
 | Befehl | Beschreibung |
 |---|---|
+| `setup:admin` | Administrator nach Bestätigung anlegen oder bestehendem Konto Filament-/Runner-Rechte geben; seit 2026-10-11. Gesamtes Setup separat mit `composer setup` beziehungsweise `php setup.php`. |
 | `_complete` | Internal command to provide shell completion suggestions |
 | `about` | Display basic information about your application |
 | `clear-compiled` | Remove the compiled class file |
