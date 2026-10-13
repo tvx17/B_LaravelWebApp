@@ -1144,5 +1144,17 @@
     "fr": "Application et frontend nécessitent le même hôte et schéma pour cette session.",
     "it": "Applicazione e frontend richiedono lo stesso host e schema per questa sessione.",
     "es": "Aplicación y frontend requieren el mismo host y esquema para esta sesión."
+  },
+  "Neue Konten müssen ihre E-Mail bestätigen. MAIL_MAILER=log protokolliert nur; für echte Zustellung Mailtransport, Absender und APP_URL konfigurieren. Bestehende Konten werden nicht automatisch bestätigt.": {
+    "en": "New accounts must verify their email. MAIL_MAILER=log only records messages; configure mail transport, sender and APP_URL for delivery. Existing accounts are not automatically verified.",
+    "fr": "Les nouveaux comptes doivent confirmer leur e-mail. MAIL_MAILER=log enregistre seulement les messages; configurer le transport, expéditeur et APP_URL pour la livraison. Les comptes existants ne sont pas confirmés automatiquement.",
+    "it": "I nuovi account devono verificare la email. MAIL_MAILER=log registra solo i messaggi; configurare trasporto, mittente e APP_URL per la consegna. Gli account esistenti non vengono verificati automaticamente.",
+    "es": "Las cuentas nuevas deben verificar su correo. MAIL_MAILER=log solo registra mensajes; configurar transporte, remitente y APP_URL para entrega. Las cuentas existentes no se verifican automáticamente."
+  },
+  "E-Mail bestätigen": {
+    "en": "Verify email",
+    "fr": "Confirmer e-mail",
+    "it": "Verificare email",
+    "es": "Verificar correo"
   }
 }

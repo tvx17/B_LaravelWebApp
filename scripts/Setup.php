@@ -186,6 +186,7 @@ try {
         setupRun([PHP_BINARY, 'artisan', 'permission:cache-reset', '--no-interaction']);
     }
     if (setupConfirm('Optionales Administratorkonto für Filament und Runner einrichten?')) {
+        echo "Neue Konten müssen ihre E-Mail bestätigen. MAIL_MAILER=log protokolliert nur; Mailtransport, Absender und APP_URL für echte Zustellung konfigurieren. Bestehende Konten werden nicht automatisch bestätigt.\n";
         setupRun([PHP_BINARY, 'artisan', 'setup:admin']);
     }
     if (setupConfirm('Frontend-Abhängigkeiten aus package-lock.json installieren?')) {
@@ -211,7 +212,7 @@ try {
         echo 'Server separat starten: php artisan serve --host='.parse_url($base, PHP_URL_HOST).' --port='.(parse_url($base, PHP_URL_PORT) ?? 80)."\n";
     }
     echo "Adressübersicht laut Konfiguration; Verfügbarkeit hängt von den bestätigten Schritten ab:\n";
-    foreach (['/', '/login', '/dashboard', '/admin/login', '/artisan-runner-ui', '/telescope (nur local)', '/_laravel-brain (nur local)'] as $path) {
+    foreach (['/', '/login', '/dashboard', '/admin/login', '/email/verify', '/artisan-runner-ui', '/telescope (nur local)', '/_laravel-brain (nur local)'] as $path) {
         echo $base.$path.PHP_EOL;
     }
     echo "Blade-Frontend ist unter der Anwendungsadresse erreichbar. Server/Queue/Backup werden separat gestartet.\n";

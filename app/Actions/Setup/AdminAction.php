@@ -3,6 +3,7 @@
 namespace App\Actions\Setup;
 
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use RuntimeException;
@@ -27,11 +28,16 @@ final class AdminAction
                 throw new RuntimeException('Neues Konto benötigt Anlagebestätigung, Namen und übereinstimmende Passwörter mit mindestens zwölf Zeichen.');
             }
         }
-        DB::transaction(function () use ($user, $identity): void {
+        $user = DB::transaction(function () use ($user, $identity): User {
             $user ??= User::create($identity);
             foreach (['access-admin', 'run-artisan-runner-ui'] as $name) {
                 $user->givePermissionTo(Permission::findOrCreate($name, 'web'));
             }
+
+            return $user;
         });
+        if ($identity !== null) {
+            event(new Registered($user));
+        }
     }
 }

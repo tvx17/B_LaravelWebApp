@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -48,12 +49,17 @@ class SetupAdmin extends Command
         if (! $this->confirm('Filament- und Runner-Rechte für dieses Konto vergeben?', false)) {
             return self::SUCCESS;
         }
-        DB::transaction(function () use ($user, $identity): void {
+        $user = DB::transaction(function () use ($user, $identity): User {
             $user ??= User::create($identity);
             foreach (['access-admin', 'run-artisan-runner-ui'] as $name) {
                 $user->givePermissionTo(Permission::findOrCreate($name, 'web'));
             }
+
+            return $user;
         });
+        if ($identity !== null) {
+            event(new Registered($user));
+        }
         $this->info('Zugang eingerichtet: /admin/login und /login.');
 
         return self::SUCCESS;

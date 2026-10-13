@@ -8,6 +8,7 @@ Fortify 1.41 übernimmt die Authentifizierung des Blade-Frontends. Die Konfigura
 - Erfolgreiche Anmeldung führt zur ursprünglich angeforderten Seite oder `/dashboard`. Maximal sechs Login-Anfragen pro Minute und IP sind erlaubt. Fehlerhafte Zugangsdaten werden als Formularfehler zurückgegeben.
 - `POST /logout` beendet die Anmeldung, invalidiert die Session und führt zurück zu `/login`.
 - `/user/confirm-password` bietet die Passwortbestätigung für spätere Funktionen mit `password.confirm`-Middleware.
+- Native E-Mail-Verifikation ist aktiv: `/email/verify`, Versandformular und signierte Bestätigungslinks. Dashboard, Filament und Runner benötigen bestätigte E-Mail-Adressen. Die Session-JSON-API und Mail-/Setup-Hinweise stehen in [email-verification.md](email-verification.md).
 
 Fortify verwaltet die Auth-Routen. Keine parallelen Login-/Logout-Routen in `routes/web.php` ergänzen. Der frühere `SessionController` wurde entfernt. Filament behält seine eigene Login-Seite und verwendet dieselben Benutzer und denselben `web`-Guard; Spatie-Berechtigungen gelten weiterhin.
 
@@ -21,7 +22,9 @@ Für Panel- oder Runner-Zugriff die entsprechenden Optionen `--admin` und/oder `
 
 ## Spätere Erweiterungen
 
-Die optionale `features`-Liste ist zunächst leer. Registrierung, Passwort-Reset, E-Mail-Verifikation, Profiländerungen, Zwei-Faktor-Anmeldung und Passkeys müssen mit passenden Views, Actions, Konfiguration und Tests gezielt aktiviert werden. Vor Passwort-Reset oder Verifikation Mailversand konfigurieren. Zwei-Faktor-Anmeldung benötigt zusätzliche User-Spalten und das vorgesehene Trait; Passkeys benötigen ihre eigene Datenbankstruktur und HTTPS-Konfiguration. Die mitgelieferten Funktionen sind durch die Paketinstallation allein nicht aktiv.
+E-Mail-Bestätigung verwendet die native Laravel-/Fortify-Funktion. Das zusätzliche `jrean/laravel-user-verification` wurde nicht installiert.
+
+Die `features`-Liste aktiviert E-Mail-Verifikation. Registrierung, Passwort-Reset, Profiländerungen, Zwei-Faktor-Anmeldung und Passkeys bleiben deaktiviert und müssen mit passenden Views, Actions, Konfiguration und Tests gezielt ergänzt werden. Für tatsächliche Verifikationsmails den Mailtransport konfigurieren; lokal ist nur `log` aktiv. Zwei-Faktor-Anmeldung benötigt zusätzliche User-Spalten und das vorgesehene Trait; Passkeys benötigen ihre eigene Datenbankstruktur und HTTPS-Konfiguration.
 
 Für die aktuelle Integration sind keine neuen Datenbankspalten oder Migrationen erforderlich. Das Paket läuft unter Windows.
 

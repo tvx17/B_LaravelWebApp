@@ -70,10 +70,10 @@ Der aktuell registrierte Entwicklungsverbund besteht aus `php artisan serve`, `p
 
 | Erweiterung / Version | Aufruf | Einstellungen und Status |
 |---|---|---|
-| **Fortify 1.41.0** | `/login`, `POST /logout`, `/user/confirm-password` | `config/fortify.php`, `FortifyServiceProvider`; Guard `web`, Ziel `/dashboard`, sechs Login-Anfragen pro Minute/IP. Registrierung, Reset, Verifikation, Profiländerungen, 2FA und Passkeys deaktiviert. [Anleitung](fortify.md) |
-| **Filament 5.10.0** | `/admin`, `/admin/login`; `php artisan filament:upgrade` | `AdminPanelProvider`, eigenes Standarddesign, Dashboard, strikte Autorisierung. Zugriff nur mit `access-admin`; noch keine fachlichen Resources. [Anleitung](filament.md) |
+| **Fortify 1.41.0** | `/login`, `POST /logout`, `/user/confirm-password` | `config/fortify.php`, `FortifyServiceProvider`; Guard `web`, Ziel `/dashboard`, sechs Login-Anfragen pro Minute/IP. Native E-Mail-Verifikation aktiv; Registrierung, Reset, Profiländerungen, 2FA und Passkeys deaktiviert. Dashboard, Filament und Runner verlangen bestätigte Adressen. [Anleitung](fortify.md) |
+| **Filament 5.10.0** | `/admin`, `/admin/login`; `php artisan filament:upgrade` | `AdminPanelProvider`, eigenes Standarddesign, Dashboard, strikte Autorisierung. Zugriff mit bestätigter E-Mail und `access-admin`; noch keine fachlichen Resources. [Anleitung](filament.md) |
 | **Spatie Permission 8.3.0** | `php artisan permission:show`, `php artisan permission:cache-reset` | `config/permission.php`, `User::HasRoles`; Teams deaktiviert, Cache 24 Stunden. Middleware `role`, `permission`, `role_or_permission`. [Anleitung](permissions.md) |
-| **Artisan Runner UI 1.0.0** | `/artisan-runner-ui` | Lokal aktiviert; auch in `.env.example` aktiviert. Login und `run-artisan-runner-ui` erforderlich. Freigegeben: `about`, `migrate:status`, `permission:show`, `permission:cache-reset`. [Anleitung](artisan-runner-ui.md) |
+| **Artisan Runner UI 1.0.0** | `/artisan-runner-ui` | Lokal aktiviert; auch in `.env.example` aktiviert. Login, bestätigte E-Mail und `run-artisan-runner-ui` erforderlich. Freigegeben: `about`, `migrate:status`, `permission:show`, `permission:cache-reset`. [Anleitung](artisan-runner-ui.md) |
 | **Socialite 5.31.0** | Später im Controller `Socialite::driver('anbieter')->redirect()` / `->user()` | Paket installiert; noch kein Anbieter, Callback oder Social-Login aktiviert. Konfiguration später in `config/services.php`. [Anleitung](socialite.md) |
 | **Spatie Media Library 11.23.9** | Später am Medienmodell `addMedia(...)->toMediaCollection(...)`; `php artisan media-library:regenerate` | `config/media-library.php`, `media`-Tabelle migriert. Fachliche Modelle und Upload-/Download-Endpunkte fehlen noch. [Anleitung](media-library.md) |
 | **Eloquent-Sluggable 13.0.1** | Trait `Sluggable` und Modellmethode `sluggable()`; Erzeugung beim Speichern | `config/sluggable.php`; eindeutige Slugs, erster Suffix `2`, `onUpdate=false`. Fachliche Inhaltsmodelle fehlen noch. [Anleitung](sluggable.md) |
@@ -87,6 +87,10 @@ php artisan app:create-user admin@example.com --name="Admin" --admin --runner
 ```
 
 Keine Standardzugangsdaten angelegt. `--admin` und `--runner` erteilen getrennte Berechtigungen. Die normale Anmeldung vergibt keine Rechte automatisch. Zusätzliche Rollen und Policies müssen fachlich festgelegt werden.
+
+## E-Mail-Verifikation und Session-API
+
+Seit 2026-10-13 ist native E-Mail-Verifikation aktiviert. Browser-Einstieg `/email/verify`; JSON-Actions unter `GET /api/email-verification/status`, `POST /api/email-verification/notification` und `GET /api/email-verification/verify/{id}/{hash}`. Anmeldung über die bestehende Web-Session, CSRF für POST, gültige Signatur für Bestätigung. Neue CLI-/Setup-Konten erhalten Benachrichtigungen und bleiben bis zur Bestätigung unverifiziert. Mailer `log` stellt keine Mails zu. Vollständiger Ablauf und Beispiele: [email-verification.md](email-verification.md).
 
 ## Installierte Entwicklungswerkzeuge
 
@@ -129,7 +133,7 @@ php artisan test
 php artisan test --configuration=phpunit.mariadb.xml
 ```
 
-MariaDB-Tests können Tabellen der angegebenen Testdatenbank neu erstellen. Sie ausschließlich auf einer separaten Testdatenbank ausführen. Zuletzt geprüfter Stand nach Setup-Umbau am 2026-10-11: 53 Tests, 730 Assertions; kein festgelegtes Coverage-Minimum. [MariaDB-Anleitung](mariadb.md).
+MariaDB-Tests können Tabellen der angegebenen Testdatenbank neu erstellen. Sie ausschließlich auf einer separaten Testdatenbank ausführen. Zuletzt geprüfter Stand nach E-Mail-Verifikation am 2026-10-13: 63 Tests, 795 Assertions; kein festgelegtes Coverage-Minimum. [MariaDB-Anleitung](mariadb.md).
 
 ## Pflege der Dokumentation
 

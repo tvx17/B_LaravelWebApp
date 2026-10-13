@@ -4,8 +4,10 @@ namespace Tests\Feature;
 
 use App\Actions\Setup\AdminAction;
 use App\Models\User;
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
 use RuntimeException;
 use Tests\TestCase;
 
@@ -15,21 +17,27 @@ class SetupWebAdminTest extends TestCase
 
     public function test_new_browser_admin_gets_both_permissions_and_a_hashed_password(): void
     {
+        Notification::fake();
         (new AdminAction)->handle(['confirm' => 'yes', 'create_account' => 'yes', 'email' => 'setup@example.com', 'name' => 'Setup Admin', 'password' => 'long-browser-password', 'password_confirmation' => 'long-browser-password']);
         $user = User::where('email', 'setup@example.com')->sole();
         $this->assertTrue(Hash::check('long-browser-password', $user->password));
         $this->assertTrue($user->can('access-admin'));
         $this->assertTrue($user->can('run-artisan-runner-ui'));
+        $this->assertFalse($user->hasVerifiedEmail());
+        Notification::assertSentTo($user, VerifyEmail::class);
     }
 
     public function test_existing_browser_admin_retains_name_and_password(): void
     {
-        $user = User::factory()->create();
+        Notification::fake();
+        $user = User::factory()->unverified()->create();
         $identity = $user->only(['name', 'password']);
         (new AdminAction)->handle(['confirm' => 'yes', 'email' => $user->email, 'name' => 'Do not replace', 'password' => 'different-password']);
         $this->assertSame($identity, $user->fresh()->only(['name', 'password']));
         $this->assertTrue($user->fresh()->can('access-admin'));
         $this->assertTrue($user->fresh()->can('run-artisan-runner-ui'));
+        $this->assertFalse($user->fresh()->hasVerifiedEmail());
+        Notification::assertNothingSent();
     }
 
     public function test_missing_account_creation_confirmation_and_invalid_passwords_leave_no_account(): void

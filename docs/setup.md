@@ -28,6 +28,8 @@ Jeder ausführende CLI-Schritt benötigt eine Bestätigung; Enter bedeutet Nein.
 
 Zum Schluss erscheinen die tatsächlichen Web-App-Adressen (`/`, `/login`, `/dashboard`, `/admin/login`, `/artisan-runner-ui`) sowie lokale Telescope-/Brain-Adressen. Der bisherige `app:setup`-Befehl wird durch den eigenständigen Einstieg ersetzt: Der Assistent startet vor dem Laravel-Bootstrap, und nach Konfigurationsänderungen laden neue Artisan-Prozesse die aktualisierten Werte.
 
+Native E-Mail-Verifikation ist aktiv. Neue Konten erhalten nach Anlage eine Bestätigungsmail; vorhandene Konten werden nicht automatisch bestätigt. Ohne bestätigte Adresse sind Dashboard, Filament und Runner gesperrt. Der Assistent zeigt dazu Mailhinweise und den Einstieg `/email/verify`. `MAIL_MAILER=log` protokolliert nur: Vor tatsächlicher Benutzeranlage Mailtransport, Absender und öffentliche `APP_URL` korrekt konfigurieren. Kein pauschales Bestätigen bestehender Administratoren. Bei Versandfehler kann das Konto schon existieren; nach Korrektur anmelden und erneut anfordern. Details: [E-Mail-Verifikation und Session-API](email-verification.md).
+
 ## Umgebung und Betrieb
 
 Wie im API-Projekt verändert der Assistent `APP_ENV` und `APP_DEBUG` nicht automatisch. Vor Produktion die Umgebung, Debug-Werkzeuge, HTTPS und Cookies gesondert einstellen. Der CLI-Assistent installiert grundsätzlich Entwicklungspakete; eine Produktionsauslieferung mit `composer install --no-dev` anschließend bewusst planen.

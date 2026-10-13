@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -42,7 +43,7 @@ class CreateUser extends Command
             return self::FAILURE;
         }
 
-        DB::transaction(function () use ($data): void {
+        $user = DB::transaction(function () use ($data): User {
             $user = User::create(collect($data)->only(['name', 'email', 'password'])->all());
             if ($this->option('runner')) {
                 $user->givePermissionTo(Permission::findOrCreate('run-artisan-runner-ui', 'web'));
@@ -50,7 +51,10 @@ class CreateUser extends Command
             if ($this->option('admin')) {
                 $user->givePermissionTo(Permission::findOrCreate('access-admin', 'web'));
             }
+
+            return $user;
         });
+        event(new Registered($user));
         $this->info('Benutzer angelegt.');
 
         return self::SUCCESS;

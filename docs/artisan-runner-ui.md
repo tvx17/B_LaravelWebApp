@@ -8,6 +8,8 @@ In der aktuellen lokalen `.env` ist die UI aktiviert. Weitere Installationen akt
 
 Die UI ist ausschließlich in der Umgebung `local` verfügbar. Sie verlangt einen angemeldeten Benutzer mit der Spatie-Berechtigung `run-artisan-runner-ui` (Guard `web`). Gäste werden zur Login-Seite `/login` weitergeleitet. Nach der Anmeldung führt `/dashboard` zur Runner UI und bietet die Abmeldung an.
 
+Zusätzlich verlangt die UI seit 2026-10-13 eine bestätigte E-Mail-Adresse. Unverifizierte Benutzer werden zur Bestätigungsseite geleitet beziehungsweise erhalten bei JSON-Aufrufen 403. Rechte allein reichen nicht aus. [Verifikation und Mailkonfiguration](email-verification.md).
+
 Einen Benutzer interaktiv anlegen:
 
 ```powershell

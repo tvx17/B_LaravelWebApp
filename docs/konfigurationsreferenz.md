@@ -4,6 +4,8 @@ Stand: 2026-10-08. Effektive lokale Konfiguration nach Laravel-Bootstrap, einsch
 
 [Zur Installationsübersicht](installationsuebersicht.md)
 
+Nachgeführt am 2026-10-13: Fortify-E-Mail-Verifikation aktiv und Runner mit `verified` geschützt. Panel-Verifikation ist zusätzlich im Filament-Provider konfiguriert.
+
 `null` bedeutet keinen gesetzten Wert; `[]` eine leere Liste. PHP-Objekte werden als Typ beschrieben, Zeitintervalle als Dauer. Jeder Abschnitt entspricht einem Konfigurations-Namespace.
 
 ## app
@@ -121,6 +123,7 @@ Quelle: `config/artisan-runner-ui.php` und gegebenenfalls Paketdefaults.
     "middleware": [
         "web",
         "auth",
+        "verified",
         "can:run-artisan-runner-ui"
     ],
     "environments": [
@@ -833,7 +836,7 @@ Quelle: `config/fortify.php` und gegebenenfalls Paketdefaults.
         "user_handle_secret": "[VERTRAULICH – nicht dokumentiert]",
         "timeout": 60000
     },
-    "features": []
+    "features": ["email-verification"]
 }
 ```
 

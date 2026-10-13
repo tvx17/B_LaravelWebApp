@@ -3,8 +3,10 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
 class SetupAdminTest extends TestCase
@@ -13,6 +15,7 @@ class SetupAdminTest extends TestCase
 
     public function test_setup_creates_an_admin_only_after_both_confirmations(): void
     {
+        Notification::fake();
         $this->artisan('setup:admin')
             ->expectsQuestion('E-Mail des Administrators', 'admin@example.com')
             ->expectsConfirmation('Neues Konto anlegen?', 'yes')
@@ -26,11 +29,14 @@ class SetupAdminTest extends TestCase
         $this->assertTrue(Hash::check('a-long-test-password', $user->password));
         $this->assertTrue($user->can('access-admin'));
         $this->assertTrue($user->can('run-artisan-runner-ui'));
+        $this->assertFalse($user->hasVerifiedEmail());
+        Notification::assertSentTo($user, VerifyEmail::class);
     }
 
     public function test_existing_account_password_and_name_are_preserved_when_granting_access(): void
     {
-        $user = User::factory()->create();
+        Notification::fake();
+        $user = User::factory()->unverified()->create();
         $original = $user->only(['name', 'password']);
 
         $this->artisan('setup:admin')
@@ -41,6 +47,8 @@ class SetupAdminTest extends TestCase
         $this->assertSame($original, $user->fresh()->only(['name', 'password']));
         $this->assertDatabaseCount('users', 1);
         $this->assertTrue($user->fresh()->can('access-admin'));
+        $this->assertFalse($user->fresh()->hasVerifiedEmail());
+        Notification::assertNothingSent();
     }
 
     public function test_declining_rights_does_not_create_a_new_account(): void

@@ -6,6 +6,8 @@ Filament stellt das Admin-Panel unter `/admin` mit eigener Login-Seite `/admin/l
 
 Panelzugriff erfordert die Spatie-Berechtigung `access-admin`, auch in der lokalen Umgebung. Einen Benutzer mit dieser Berechtigung interaktiv anlegen:
 
+Seit 2026-10-13 ist zusätzlich eine bestätigte E-Mail-Adresse erforderlich. Filament zeigt unverifizierten, berechtigten Benutzern seine Verifikationsseite; bestehende Konten werden nicht automatisch bestätigt. Neue Konten erhalten die native Benachrichtigung. Mailkonfiguration und Ablauf: [E-Mail-Verifikation](email-verification.md).
+
 ```powershell
 php artisan app:create-user deine-adresse@example.com --name="Dein Name" --admin
 ```

@@ -7,7 +7,7 @@ return [
     'path' => env('ARTISAN_RUNNER_UI_PATH', 'artisan-runner-ui'),
 
     // Add your own, e.g. 'can:run-artisan-runner-ui'
-    'middleware' => ['web', 'auth', 'can:run-artisan-runner-ui'],
+    'middleware' => ['web', 'auth', 'verified', 'can:run-artisan-runner-ui'],
 
     // Anything else returns 404
     'environments' => ['local'],

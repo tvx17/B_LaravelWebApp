@@ -99,6 +99,7 @@ $field = function (string $name, string $label, string $type = 'text') use ($esc
                     <?php } elseif ($step === 'packages') { ?><p><?= $h('Pakete registrieren, Filament-Assets veröffentlichen und Permission-Cache leeren. Zuerst Migrationen ausführen.') ?></p>
                     <?php } elseif ($step === 'admin') { ?>
                         <p><?= $h('Filament- und Runner-Zugang vergeben. Bei vorhandener E-Mail bleiben Name und Passwort erhalten.') ?></p>
+                        <p><?= $h('Neue Konten müssen ihre E-Mail bestätigen. MAIL_MAILER=log protokolliert nur; für echte Zustellung Mailtransport, Absender und APP_URL konfigurieren. Bestehende Konten werden nicht automatisch bestätigt.') ?></p>
                         <?php $field('email', 'E-Mail', 'email');
                         $field('name', 'Name (nur für neues Konto)');
                         $field('password', 'Passwort für neues Konto (mindestens 12 Zeichen)', 'password');
@@ -115,7 +116,7 @@ $field = function (string $name, string $label, string $type = 'text') use ($esc
                 </form><?php } ?>
                 <?php if ($step === 'finish') { ?>
                     <h3><?= $h('Adressübersicht') ?></h3><p><?= $h('Adressen verwenden Host und Port dieses Aufrufs. Verfügbarkeit hängt von Einrichtung und Webserver ab.') ?></p>
-                    <ul><?php foreach (['/' => 'Frontend', '/dashboard' => 'Übersicht', '/admin/login' => 'Filament', '/login' => 'Anmelden', '/artisan-runner-ui' => 'Artisan Runner'] as $path => $label) { ?><li><?= $h($label) ?>: <a href="<?= $escape($base.$path) ?>"><?= $escape($base.$path) ?></a></li><?php } ?></ul>
+                    <ul><?php foreach (['/' => 'Frontend', '/dashboard' => 'Übersicht', '/admin/login' => 'Filament', '/login' => 'Anmelden', '/email/verify' => 'E-Mail bestätigen', '/artisan-runner-ui' => 'Artisan Runner'] as $path => $label) { ?><li><?= $h($label) ?>: <a href="<?= $escape($base.$path) ?>"><?= $escape($base.$path) ?></a></li><?php } ?></ul>
                     <?php if (($environment['APP_ENV'] ?? 'local') === 'local') { ?><p>Telescope: <a href="<?= $escape($base.'/telescope') ?>">/telescope</a> · Brain: <a href="<?= $escape($base.'/_laravel-brain') ?>">/_laravel-brain</a> (<?= $h('Entwicklungspakete erforderlich') ?>).</p><?php } ?>
                     <p><?= $h('Frontend-Origin') ?>: <code><?= $escape($environment['CORS_ALLOWED_ORIGINS'] ?? $t('Nicht konfiguriert')) ?></code>.</p>
                 <?php } ?>

@@ -44,6 +44,14 @@ class ArtisanRunnerUiTest extends TestCase
             ->assertForbidden();
     }
 
+    public function test_unverified_users_cannot_run_commands_even_with_permission(): void
+    {
+        config(['artisan-runner-ui.environments' => ['testing']]);
+        $user = User::factory()->unverified()->create();
+        $user->givePermissionTo(Permission::findOrCreate('run-artisan-runner-ui', 'web'));
+        $this->actingAs($user)->postJson('/artisan-runner-ui/run', ['command' => 'permission:cache-reset'])->assertForbidden();
+    }
+
     public function test_authorized_users_can_view_ui_and_run_only_allowed_commands(): void
     {
         config(['artisan-runner-ui.environments' => ['testing']]);

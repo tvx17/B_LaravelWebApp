@@ -1,5 +1,7 @@
 <?php
 
+use Laravel\Fortify\Features;
+
 return [
     'guard' => 'web',
     'passwords' => 'users',
@@ -15,5 +17,5 @@ return [
     'limiters' => ['login' => 'fortify-login'],
     'redirects' => ['logout' => '/login'],
     // Weitere Funktionen nach Festlegung der Konten- und Sicherheitsanforderungen aktivieren.
-    'features' => [],
+    'features' => [Features::emailVerification()],
 ];
