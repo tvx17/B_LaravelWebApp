@@ -1,5 +1,6 @@
 # Vollständige Konfigurationsreferenz
 
+
 Stand: 2026-10-08. Effektive lokale Konfiguration nach Laravel-Bootstrap, einschließlich zusammengeführter Paketdefaults. Diese Momentaufnahme ersetzt keine `.env` und keine Konfigurationsdatei. Änderungen sind künftig in den jeweiligen Quellen nachzupflegen. Geheimnisse und Zugangsdaten sind maskiert; Pfade beziehen sich auf diese Installation.
 
 [Zur Installationsübersicht](installationsuebersicht.md)
@@ -1769,3 +1770,19 @@ Quelle: Framework-/Paketdefaults; keine eigene Datei in `config/`.
 }
 ```
 
+## Kitloong ergänzt am 2026-10-13: migrations-generator
+
+Quelle: `vendor/kitloong/laravel-migrations-generator/config/migrations-generator.php`. Provider wird automatisch erkannt, keine eigene Konfigurationsdatei. Pfade in dieser Ergänzung sind relativ zum Projektstamm dargestellt; zur Laufzeit werden absolute Projekt-/Paketpfade verwendet.
+
+```json
+{
+    "migration_template_path": "vendor/kitloong/laravel-migrations-generator/stubs/migration.generate.stub",
+    "migration_target_path": "database/migrations",
+    "filename_pattern": {
+        "table": "[datetime]_create_[name]_table.php",
+        "view": "[datetime]_create_[name]_view.php",
+        "procedure": "[datetime]_create_[name]_proc.php",
+        "foreign_key": "[datetime]_add_foreign_keys_to_[name]_table.php"
+    }
+}
+```

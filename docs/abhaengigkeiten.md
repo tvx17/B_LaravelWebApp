@@ -155,6 +155,7 @@ Stand: 2026-10-08. Versionen aus den Lockfiles; direkte Erweiterungen mit ihren 
 | fruitcake/laravel-debugbar | v4.4.4 | direkt | Entwicklung |
 | hamcrest/hamcrest-php | v3.0.0 | transitiv | Entwicklung |
 | laramint/laravel-brain | v2.7.1 | direkt | Entwicklung |
+| kitloong/laravel-migrations-generator | v7.4.0 | direkt | Entwicklung |
 | laramint/laravel-stress | v1.0.3 | transitiv | Entwicklung |
 | laravel/agent-detector | v2.0.4 | transitiv | Entwicklung |
 | laravel/pail | v1.2.7 | direkt | Entwicklung |

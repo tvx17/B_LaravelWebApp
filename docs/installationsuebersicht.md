@@ -4,7 +4,7 @@ Stand: **2026-10-08**, Laravel **13.35.0**, PHP **8.5.6**, Windows, Blade-Fronte
 
 ## Vollständige Referenzen
 
-- [Alle effektiven Konfigurationswerte](konfigurationsreferenz.md): 31 Bereiche mit lokalen Werten und zusammengeführten Paketdefaults.
+- [Alle effektiven Konfigurationswerte](konfigurationsreferenz.md): 32 Bereiche mit lokalen Werten und zusammengeführten Paketdefaults.
 - [Alle PHP- und JavaScript-Abhängigkeiten](abhaengigkeiten.md): vollständige Lockfile-Versionen einschließlich transitiver Bibliotheken.
 - [Alle verfügbaren Artisan-Befehle](artisan-befehle.md): Befehlsnamen und Beschreibungen der lokalen Installation.
 - [Projektlog und offene Aufgaben](../PROJEKTLOG.md): Einrichtungshistorie und noch notwendige Schritte.
@@ -100,6 +100,7 @@ Seit 2026-10-13 ist native E-Mail-Verifikation aktiviert. Browser-Einstieg `/ema
 | **Telescope 5.25.0** | `/telescope`; `php artisan telescope:prune --hours=48` | Nur lokal und aktiviert; `config/telescope.php`. Lokal standardmäßig ohne Anmeldung. Sensible Formularfelder/Header werden maskiert. Tägliche Bereinigung durch Scheduler; Tests deaktivieren Telescope. |
 | **Laravel-Brain 2.7.1** | `php artisan brain:scan --no-interaction`, `/_laravel-brain` | Nur lokal; Dateitreiber, 1024 MB, registrierte Routen; MCP deaktiviert. Graph in `storage/app/laravel-brain`. Lokal ohne Anmeldung, daher Server auf Loopback betreiben. KI-Regelerzeugung darf `AGENTS.md` nicht überschreiben. [Anleitung](laravel-brain.md) |
 | **Pint 1.32.1** | `php vendor/bin/pint --test`; ohne `--test` formatieren | PHP-Codeformatierung; Laravel-Stil und vier Leerzeichen |
+| **Kitloong Migrations Generator 7.4.0** | `php artisan help migrate:generate`; Generierung bewusst mit ausgewählter Verbindung, Tabellen, separatem `--path` und `--skip-log` | Entwicklungsabhängigkeit für spätere Bestandsdatenbanken. Keine automatische Generierung im Setup. [Anleitung](migrations-generator.md) |
 | **PHPUnit 12.5.38** | `php artisan test` oder `php vendor/phpunit/phpunit/phpunit` | Tests unter `tests/Feature` und `tests/Unit` |
 | **PAO 1.1.5** | Automatisch bei unterstützten Test-/Formatter-Aufrufen | Ausgabeaufbereitung; bei Bedarf `$env:PAO_DISABLE='true'` für normale Werkzeugausgabe |
 | **Pail 1.2.7** | `php artisan pail` | Installiert, benötigt aber `pcntl`; unter nativem Windows nicht lauffähig. Alternative: `Get-Content storage/logs/laravel.log -Tail 100 -Wait` |
@@ -133,7 +134,7 @@ php artisan test
 php artisan test --configuration=phpunit.mariadb.xml
 ```
 
-MariaDB-Tests können Tabellen der angegebenen Testdatenbank neu erstellen. Sie ausschließlich auf einer separaten Testdatenbank ausführen. Zuletzt geprüfter Stand nach E-Mail-Verifikation am 2026-10-13: 63 Tests, 795 Assertions; kein festgelegtes Coverage-Minimum. [MariaDB-Anleitung](mariadb.md).
+MariaDB-Tests können Tabellen der angegebenen Testdatenbank neu erstellen. Sie ausschließlich auf einer separaten Testdatenbank ausführen. Zuletzt geprüfter Stand nach Kitloong-Installation am 2026-10-13: 64 Tests, 801 Assertions; kein festgelegtes Coverage-Minimum. [MariaDB-Anleitung](mariadb.md).
 
 ## Pflege der Dokumentation
 

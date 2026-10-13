@@ -57,3 +57,5 @@ Eigene PHP-Sessions mit CSRF-Schutz, einstündigem Zugang, Rate-Limit für falsc
 Die bisherige automatische `SETUP.md`-Berichterzeugung ist durch die Abschlussübersicht wie im API-Projekt ersetzt. `.env`, Zugangsschlüssel und Datenbank werden durch die Umstellung nicht verändert. Neue Runtime-Dateien `.setup-access`, `.setup-complete`, `.setup.lock` und `.setup-login-attempts.json` sind Git-ignoriert.
 
 Socialite-Anbieter, fachliche Medienmodelle, Kopia-Repository, Aufbewahrung und Wiederherstellungstest bleiben gesonderte Aufgaben. Details: [Installationsübersicht](installationsuebersicht.md), [Kopia](kopia.md).
+
+Kitloong Migrations Generator ist für spätere Bestandsdatenbank-Imports als Entwicklungsabhängigkeit enthalten. Composer installiert und registriert ihn wie die anderen Pakete. Der Assistent führt `migrate:generate` nicht automatisch aus; Anwendung und Prüfung generierter Migrationen bleiben ein gesonderter Importablauf. [Anleitung](migrations-generator.md).
